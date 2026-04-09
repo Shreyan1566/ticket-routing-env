@@ -1,0 +1,77 @@
+name: ticket-routing-env
+version: "1.0.0"
+description: >
+  A real-world customer support ticket routing environment.
+  An AI agent reads support tickets and must route them to the
+  correct department (billing, technical, sales, hr, legal).
+  Tasks increase in difficulty from simple keyword-based routing
+  to ambiguous multi-topic tickets.
+
+author: NullSec
+tags:
+  - customer-support
+  - classification
+  - nlp
+  - real-world
+
+tasks:
+  - id: easy_routing
+    name: Easy Ticket Routing
+    description: Route clearly-worded tickets with obvious department keywords.
+    difficulty: easy
+    max_steps: 5
+    reward_range: [0.0, 1.0]
+
+  - id: medium_routing
+    name: Medium Ticket Routing
+    description: Route moderately complex tickets requiring context understanding.
+    difficulty: medium
+    max_steps: 5
+    reward_range: [0.0, 1.0]
+
+  - id: hard_routing
+    name: Hard Ticket Routing
+    description: Route ambiguous, multi-topic tickets requiring nuanced judgment.
+    difficulty: hard
+    max_steps: 5
+    reward_range: [0.0, 1.0]
+
+observation_space:
+  type: object
+  properties:
+    ticket_id:
+      type: string
+    ticket_text:
+      type: string
+    sender:
+      type: string
+    priority:
+      type: string
+    current_step:
+      type: integer
+    done:
+      type: boolean
+    feedback:
+      type: string
+    score_so_far:
+      type: number
+
+action_space:
+  type: object
+  properties:
+    department:
+      type: string
+      enum: [billing, technical, sales, hr, legal]
+    confidence:
+      type: number
+      minimum: 0.0
+      maximum: 1.0
+    reasoning:
+      type: string
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  tasks: GET /tasks
+  health: GET /health
