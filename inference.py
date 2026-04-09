@@ -24,9 +24,10 @@ from openai import OpenAI
 # Configuration — read from environment variables
 # ─────────────────────────────────────────────
 
-API_BASE_URL: str = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
-MODEL_NAME: str = os.environ.get("MODEL_NAME", "gpt-4o-mini")
-HF_TOKEN: str = os.environ.get("HF_TOKEN", "")
+API_BASE_URL: str = os.getenv("API_BASE_URL", "https://api.groq.com/openai/v1")
+MODEL_NAME: str = os.getenv("MODEL_NAME", "llama-3.1-8b-instant")
+HF_TOKEN = os.getenv("HF_TOKEN")  # No default — required secret
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")  # Optional: for from_docker_image()
 
 # The HuggingFace Space URL where the environment is running
 ENV_URL: str = os.environ.get(
@@ -296,7 +297,7 @@ def main() -> None:
 
     # Set up clients
     env = TicketRoutingClient(base_url=ENV_URL)
-    llm = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN or "placeholder")
+    llm = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
 
     # Verify environment is live
     try:
