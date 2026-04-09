@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "ticket-routing-env"
@@ -8,15 +8,8 @@ version = "1.0.0"
 description = "OpenEnv-compatible ticket routing environment for AI agent training"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
 authors = [
     {name = "Shreyan Cheekoti", email = "shreyan1567@gmail.com"}
-]
-keywords = ["openenv", "reinforcement-learning", "ticket-routing", "nlp"]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
 ]
 dependencies = [
     "fastapi>=0.115.0",
@@ -34,4 +27,6 @@ Repository = "https://github.com/Shreyan1566/ticket-routing-env"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["server*"]
+
+[tool.setuptools.package-data]
+"*" = ["openenv.yaml", "*.md"]
